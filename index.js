@@ -3,6 +3,7 @@ const app = express()
 const { MongoClient } = require('mongodb');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const ObjectID = require('mongodb').ObjectID;
 require('dotenv').config()
 const port = 5055;
 
@@ -36,6 +37,16 @@ client.connect(err => {
       .then(result => {
         console.log('inserted count', result.insertedCount)
         res.send(result.insertedCount > 0)
+      })
+  })
+
+  app.delete('/deleteNews/:id', (req, res) => {
+    const id = ObjectID(req.params.id);
+    console.log('delete this', id)
+    newsCollection.findOneAndDelete({ _id: id })
+      .then(result => {
+        res.send(result.deletedCount > 0)
+        // res.send(!!documents.value)
       })
   })
   console.log('Database connected')
