@@ -26,7 +26,7 @@ client.connect(err => {
   app.get('/allnews', (req, res) => {
     newsCollection.find()
       .toArray((err, news) => {
-        console.log('from database', news)
+        // console.log('from database', news)
         res.send(news)
       })
   })
@@ -37,24 +37,32 @@ client.connect(err => {
     newsCollection.insertOne(newNews)
       .then(result => {
         console.log('inserted count', result.insertedCount)
-        res.send(result.insertedCount > 0)
+        res.redirect('/')
       })
   })
 
   app.delete('/delete/:id', (req, res) => {
-    newsCollection.deleteOne({_id: ObjectId(req.params.id)})
-    .then(result => {
-      console.log(result)
-    })
-    // const id = ObjectId(req.params.id);
-    // console.log('delete this', id)
-    // newsCollection.findOneAndDelete({ _id: id })
-    //   .then(result => {
-    //     res.send(result.deletedCount > 0)
-    //   })
+    // console.log(req.params.id)
+    newsCollection.deleteOne({ _id: ObjectId(req.params.id) })
+      .then(result => {
+        // console.log(result)
+        res.send(result.deletedCount > 0)
+      })
   })
+
+  app.patch('/update/:id', (req, res) => {
+    // console.log(req.body)
+    newsCollection.updateOnes({ _id: ObjectId(req.params.id) },
+      {
+        $set: req.body,
+      }
+    )
+      .then(result => {
+        res.send(result.modifiedCount > 0)
+      })
+  })
+
   console.log('Database connected')
-  //   client.close();
 });
 
 
