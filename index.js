@@ -41,6 +41,7 @@ client.connect(err => {
       })
   })
 
+  // delete route 
   app.delete('/delete/:id', (req, res) => {
     // console.log(req.params.id)
     newsCollection.deleteOne({ _id: ObjectId(req.params.id) })
@@ -50,17 +51,33 @@ client.connect(err => {
       })
   })
 
-  app.patch('/update/:id', (req, res) => {
-    // console.log(req.body)
-    newsCollection.updateOnes({ _id: ObjectId(req.params.id) },
-      {
-        $set: req.body,
-      }
-    )
-      .then(result => {
-        res.send(result.modifiedCount > 0)
-      })
-  })
+  // app.patch('/update/:id', (req, res) => {
+  //   // console.log(req.body)
+  //   newsCollection.updateOne({ _id: ObjectId(req.params.id) },
+  //     {
+  //       $set: req.body,
+  //     }
+  //   )
+  //     .then(result => {
+  //       res.send(result.modifiedCount > 0)
+  //     })
+  // })
+
+  // update route 
+  app.put('/update/:id', (req, res) => {
+    const updatedItem = {
+        title: req.body.title,
+        author: req.body.author,
+        description: req.body.description,
+        category: req.body.category
+    };
+    console.log(req.body);
+    newsCollection.updateOne({ _id: ObjectId(req.params.id) },
+        { $set: updatedItem })
+        .then(result => {
+            res.send(result.modifiedCount > 0)
+        })
+})
 
   console.log('Database connected')
 });
