@@ -6,6 +6,11 @@ const newsSchema = new mongoose.Schema({
         required: true,
         unique: false
     },
+    email: {
+        type: String,
+        required: true,
+        unique: true
+    },
     category: {
         type: String,
         required: true
@@ -26,4 +31,4 @@ const newsSchema = new mongoose.Schema({
     }
 }, { timestamps: true });
 
-module.exports = mongoose.model('newsData', newsSchema);
+module.exports = mongoose.model('newsdata', newsSchema);

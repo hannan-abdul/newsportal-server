@@ -5,6 +5,7 @@ const addnews = async (req, res) => {
     try {
         const newNews = new News({
             title: req.body.title,
+            email: req.body.email,
             category: req.body.category,
             author: req.body.author,
             description: req.body.description,
