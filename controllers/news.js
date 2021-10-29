@@ -51,6 +51,7 @@ const deletenews = async (req, res) => {
         res.status(500).json(err)
     }
 }
+
 // update service 
 const updateNews = async (req, res) => {
     try {

@@ -3,9 +3,10 @@ const app = express();
 const dotenv = require("dotenv");
 const cors = require('cors');
 const mongoose = require("mongoose");
-const port = process.env.PORT || 5050;
+const port = process.env.PORT || 5500;
 const news = require("./routes/news")
 const auth = require("./routes/auth")
+const categories = require("./routes/categories")
 
 dotenv.config()
 app.use(cors());
@@ -21,6 +22,7 @@ mongoose.connect(process.env.MONGO_URL, {
 // All Routes
 app.use("/api/news", news)
 app.use("/api/auth", auth)
+app.use("/api/categories", categories)
 
 
 app.get('/', (req, res) => {
